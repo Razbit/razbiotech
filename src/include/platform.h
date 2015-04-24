@@ -1,4 +1,5 @@
 /*
+ * Macros for easily determining the platform.
 **/
 
 /* Copyright (C) 2015  Eetu "Razbit" Pesonen
@@ -19,26 +20,22 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#include <iostream>
 
-#include <platform.h>
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
-#ifdef PLATFORM_WIN32
-#include <pdcurses.h>
-#else
-#include <curses.h>
+#if defined linux || defined __linux__ || defined __linux
+#define PLATFORM_LINUX
+#define PLATFORM_NAME "Linux"
+
+#elif defined _WIN32 || defined WIN32 || defined __NT__ || defined __WIN32__
+#define PLATFORM_WIN32
+#define PLATFORM_NAME "Windows"
+
+#elif (defined __MWERKS__ && defined __powerc && !defined macintosh) || defined __APPLE_CC__ || defined macosx
+#define PLATFORM_OSX
+#define PLATFORM_NAME "MacOS X"
 #endif
 
-using namespace std;
 
-int main()
-{
-    initscr();              /* Start curses mode */
-    printw("Hello Curses World!");	/* Print Hello World */
-    refresh();              /* Print it on to the real screen */
-    getch();                /* Wait for user input */
-    endwin();               /* End curses mode */
-
-    return 0;
-}
-
+#endif // PLATFORM_H

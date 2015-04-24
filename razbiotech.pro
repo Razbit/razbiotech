@@ -10,3 +10,13 @@ linux: LIBS += -lncurses
 
 DISTFILES += \
     README.md
+
+INCLUDEPATH += src/include
+
+HEADERS += \
+    lib/pdc_panel.h \
+    lib/pdcurses.h \
+    src/include/platform.h \
+    src/include/pdc_panel.h \
+    src/include/pdcurses.h
+
