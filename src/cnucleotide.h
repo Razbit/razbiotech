@@ -1,4 +1,5 @@
 /*
+ * CNucleotide is a class describing a single nucleotide (e.g. amine)
 **/
 
 /* Copyright (C) 2015  Eetu "Razbit" Pesonen
@@ -19,9 +20,11 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#include <iostream>
 
-#include <platform.h>
+#ifndef CNUCLEOTIDE_H
+#define CNUCLEOTIDE_H
+
+#include "cobject.h"
 
 #ifdef PLATFORM_WIN32
 #include <pdcurses.h>
@@ -29,24 +32,36 @@
 #include <curses.h>
 #endif
 
-#include "cnucleotide.h"
-
-using namespace std;
-
-int main()
+typedef enum
 {
-    initscr();              /* Start curses mode */
-    if (has_colors() == FALSE)
-        printw("Your terminal does not support color\n");
-    else
-        start_color();
+    ADE = COLOR_BLUE,
+    THY = COLOR_YELLOW,
+    GUA = COLOR_GREEN,
+    CYT = COLOR_RED,
+    URA = COLOR_MAGENTA,
+    DEFAULT = -1
+} e_nucleotide_type_t;
 
-    CNucleotide* nucl1 = new CNucleotide(ADE, 5, 5, UP);
-    nucl1->draw();
 
-    getch();                /* Wait for user input */
-    endwin();               /* End curses mode */
+class CNucleotide : public CObject
+{
+public:
+    CNucleotide(): type(DEFAULT) {}
 
-    return 0;
-}
+    CNucleotide(e_nucleotide_type_t type, int x, int y, e_orientation_t orient):
+    type(type)
+    {
+        CObject(x, y, orient);
+    }
 
+    virtual ~CNucleotide();
+
+    int draw();
+
+    e_nucleotide_type_t get_type(){return type;}
+    void set_type(e_nucleotide_type_t type){this->type = type;}
+
+    e_nucleotide_type_t type;
+};
+
+#endif // CNUCLEOTIDE_H
