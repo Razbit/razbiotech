@@ -4,7 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += src/main.cpp \
-    src/cnucleotide.cpp
+    src/cnucleotide.cpp \
+    src/cnastrand.cpp
 
 win32: LIBS += -L$$PWD/lib/ -lpdcurses
 linux: LIBS += -lncurses
@@ -22,5 +23,5 @@ HEADERS += \
     src/include/pdcurses.h \
     src/cobject.h \
     src/cnucleotide.h \
-    src/curses_utils.h
+    src/cnastrand.h
 

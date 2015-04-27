@@ -41,7 +41,7 @@ class CObject
 {
 public:
     CObject(int x, int y, e_orientation_t orient, WINDOW* win):
-        x(x), y(y), orient(orient), win(win){}
+        x(x), y(y), orient(orient), win(win) {}
 
     CObject(): x(0), y(0), orient(UP), win(stdscr) {}
 

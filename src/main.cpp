@@ -30,6 +30,7 @@
 #endif
 
 #include "cnucleotide.h"
+#include "cnastrand.h"
 
 
 int main()
@@ -38,17 +39,30 @@ int main()
     if (has_colors() == FALSE)
     {
         printw("Your terminal does not support color\n");
+        refresh();
         return EXIT_FAILURE;
     }
     else
+    {
         start_color();
+    }
 
-    CNucleotide* nucl1 = new CNucleotide(ADE, 5, 5, UP, stdscr);
-    nucl1->draw();
+    CNAStrand* strand = new CNAStrand(3, 4, UP, stdscr);
 
+    strand->add(ADE);
+    strand->add(GUA);
+    strand->add(CYT);
+    strand->add(THY);
+
+    strand->draw();
+
+    wmove(stdscr, 15, 50);
+
+    wrefresh(stdscr);
     getch();                /* Wait for user input */
     endwin();               /* End curses mode */
 
     return EXIT_SUCCESS;
 }
+
 

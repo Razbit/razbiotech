@@ -40,29 +40,23 @@ CNucleotide::~CNucleotide()
 int CNucleotide::draw()
 {
     char ctype = 0;
-    int color = COLOR_WHITE;
 
     switch (type)
     {
     case ADE:
         ctype = 'A';
-        color = ADE;
         break;
     case THY:
         ctype = 'T';
-        color = THY;
         break;
     case GUA:
         ctype = 'G';
-        color = GUA;
         break;
     case CYT:
         ctype = 'C';
-        color = CYT;
         break;
     case URA:
         ctype = 'U';
-        color = URA;
         break;
     case DEFAULT:
         break;
@@ -71,13 +65,17 @@ int CNucleotide::draw()
     switch (orient)
     {
     case UP: // we're drawing the upper strand
-        mvaddch(this->y, this->x, '+');
-        fmvwaddch(color, this->y+1, this->x, this->win, ctype);
+        mvwaddch(this->win, this->y, this->x, '+');
+        attron(COLOR_PAIR(type));
+        mvwaddch(this->win, this->y+1, this->x, ctype);
+        attroff(COLOR_PAIR(type));
         break;
 
     case DOWN: //lower strand
-        mvaddch(this->y+1, this->x, '+');
-        fmvwaddch(color, this->y, this->x, this->win, ctype);
+        mvwaddch(this->win, this->y+1, this->x, '+');
+        attron(COLOR_PAIR(type));
+        mvwaddch(this->win, this->y, this->x, ctype);
+        attroff(COLOR_PAIR(type));
         break;
 
     default: // ???
@@ -85,8 +83,19 @@ int CNucleotide::draw()
     }
 
 
-    refresh();
+    wrefresh(this->win);
 
     return 0;
 }
 
+void CNucleotide::create_colors()
+{
+    short bg = 0;
+    pair_content(0, 0, &bg);
+
+    init_pair(ADE, COLOR_BLUE, bg);
+    init_pair(THY, COLOR_YELLOW, bg);
+    init_pair(GUA, COLOR_GREEN, bg);
+    init_pair(CYT, COLOR_RED, bg);
+    init_pair(URA, COLOR_MAGENTA, bg);
+}

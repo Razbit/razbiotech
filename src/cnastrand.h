@@ -1,5 +1,6 @@
 /*
- * CNucleotide is a class describing a single nucleotide (e.g. amine)
+ * CNAStrand is a class describing a single strand of a nucleic acid,
+ * i.e. a DNA or RNA strand
 **/
 
 /* Copyright (C) 2015  Eetu "Razbit" Pesonen
@@ -20,9 +21,10 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
+#ifndef CNASTRAND_H
+#define CNASTRAND_H
 
-#ifndef CNUCLEOTIDE_H
-#define CNUCLEOTIDE_H
+#include <stdlib.h>
 
 #include "cobject.h"
 
@@ -32,53 +34,35 @@
 #include <curses.h>
 #endif
 
-typedef enum
-{
-    ADE = 1,
-    THY = 2,
-    GUA = 3,
-    CYT = 4,
-    URA = 5,
-    DEFAULT = -1
-} e_nucl_type_t;
+#include "curses_utils.h"
 
+#include "cnucleotide.h"
 
-class CNucleotide : public CObject
+class CNAStrand : public CObject
 {
 public:
-    CNucleotide(): type(DEFAULT), next(NULL)
+    CNAStrand(): ntides(NULL) {}
+
+    CNAStrand(int x, int y, e_orientation_t orient, WINDOW* win): ntides(NULL)
     {
-        create_colors();
+        set(x, y, orient, win);
     }
 
-    CNucleotide(e_nucl_type_t type, int x, int y, e_orientation_t orient,
-                WINDOW* win): next(NULL)
-    {
-        set(type, x, y, orient, win);
-        create_colors();
-    }
-
-    virtual ~CNucleotide();
+    ~CNAStrand();
 
     int draw();
 
-    e_nucl_type_t get_type(){return type;}
-    void set_type(e_nucl_type_t type){this->type = type;}
+    void add(e_nucl_type_t type);
 
-    void set(e_nucl_type_t type, int x, int y, e_orientation_t orient, WINDOW* win)
+    void set(int x, int y, e_orientation_t orient, WINDOW* win)
     {
         this->x = x;
         this->y = y;
         this->orient = orient;
         this->win = win;
-        this->type = type;
     }
 
-    void create_colors();
-
-    e_nucl_type_t type;
-
-    CNucleotide* next;
+    CNucleotide* ntides; /* A list of all nucleotides in the strand. */
 };
 
-#endif // CNUCLEOTIDE_H
+#endif // CNASTRAND_H
