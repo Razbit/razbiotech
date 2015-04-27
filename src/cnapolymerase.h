@@ -1,6 +1,6 @@
 /*
- * CNAStrand is a class describing a single strand of a nucleic acid,
- * i.e. a DNA or RNA strand
+ * CNAPolymerase is a class describing a NA polymerase entzyme
+ * Makes a copy of strand1 to strand2.
 **/
 
 /* Copyright (C) 2015  Eetu "Razbit" Pesonen
@@ -21,8 +21,8 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#ifndef CNASTRAND_H
-#define CNASTRAND_H
+#ifndef CNAPOLYMERASE_H
+#define CNAPOLYMERASE_H
 
 #include <stdlib.h>
 
@@ -34,31 +34,20 @@
 #include <curses.h>
 #endif
 
-#include "cnucleotide.h"
+#include "cnastrand.h"
 
-class CNAStrand : public CObject
+class CNAPolymerase : public CObject
 {
 public:
-    CNAStrand(): ntides(NULL) {}
+    CNAPolymerase(){}
+    ~CNAPolymerase(){}
 
-    CNAStrand(int x, int y, e_orientation_t orient, WINDOW* win): ntides(NULL)
-    {
-        this->x = x;
-        this->y = y;
-        this->orient = orient;
-        this->win = win;
-    }
+    CNAStrand* strand1;
+    CNAStrand* strand2;
 
-    ~CNAStrand();
-
-    int draw();
-
-    void add(e_nucl_type_t type);
-
-    void move(int x, int y);
-
-
-    CNucleotide* ntides; /* A list of all nucleotides in the strand. */
+    virtual int copy() = 0;
+    virtual int draw() = 0;
+    int color;
 };
 
-#endif // CNASTRAND_H
+#endif // CNAPOLYMERASE_H

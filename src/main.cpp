@@ -29,13 +29,21 @@
 #include <curses.h>
 #endif
 
+#include "curses_utils.h"
+
 #include "cnucleotide.h"
 #include "cnastrand.h"
+#include "cdnapolymerase.h"
 
+WINDOW* infowin;
+WINDOW* contentwin;
 
 int main()
 {
     initscr();              /* Start curses mode */
+    cbreak();               /* Dont wait for '\n'  from user*/
+    noecho();               /* Dont echo user input */
+
     if (has_colors() == FALSE)
     {
         printw("Your terminal does not support color\n");
@@ -47,7 +55,20 @@ int main()
         start_color();
     }
 
-    CNAStrand* strand = new CNAStrand(3, 4, UP, stdscr);
+    infowin = newwin(8, getmaxx(stdscr), (getmaxy(stdscr)-8), 0);
+    wborder(infowin, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, \
+            ACS_LTEE, ACS_RTEE, ACS_LLCORNER, ACS_LRCORNER);
+    wrefresh(infowin);
+
+    contentwin = newwin(getmaxy(stdscr)-7, getmaxx(stdscr), 0, 0);
+    wborder(contentwin, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, \
+            ACS_ULCORNER, ACS_URCORNER, ACS_LTEE, ACS_RTEE);
+    wrefresh(contentwin);
+
+    CNAStrand* strand = new CNAStrand(getmaxx(contentwin)/2, \
+                                      getmaxy(contentwin)/2 - 1, UP, contentwin);
+    CNAStrand* strand2 = new CNAStrand(getmaxx(contentwin)/2, \
+                                       getmaxy(contentwin)/2 + 1, DOWN, contentwin);
 
     strand->add(ADE);
     strand->add(GUA);
@@ -56,10 +77,22 @@ int main()
 
     strand->draw();
 
-    wmove(stdscr, 15, 50);
+    CDNAPolymerase* polym = new CDNAPolymerase(getmaxx(contentwin)/2, \
+                                               getmaxy(contentwin)/2, \
+                                               strand, strand2, contentwin);
 
-    wrefresh(stdscr);
-    getch();                /* Wait for user input */
+    while (polym->copy() == 0);
+
+    wrefresh(contentwin);
+    wrefresh(infowin);
+
+    nocbreak();
+
+    wbclear(infowin);
+    mvwprintw(infowin, 1, 1, "DONE");
+    wrefresh(infowin);
+    wgetch(infowin);
+
     endwin();               /* End curses mode */
 
     return EXIT_SUCCESS;

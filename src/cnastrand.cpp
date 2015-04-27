@@ -31,8 +31,6 @@
 #include <curses.h>
 #endif
 
-#include "curses_utils.h"
-
 #include "cnucleotide.h"
 
 
@@ -62,9 +60,9 @@ int CNAStrand::draw()
         if (ptr->next != NULL)
         {
             if (orient == UP)
-                mvwaddch(this->win, this->y, ptr->x+1, '-');
+                mvwaddch(this->win, this->y, ptr->x+1, ACS_HLINE);
             else
-                mvwaddch(this->win, this->y+1, ptr->x+1, '-');
+                mvwaddch(this->win, this->y+1, ptr->x+1, ACS_HLINE);
         }
 
         ptr = ptr->next;
@@ -93,5 +91,28 @@ void CNAStrand::add(e_nucl_type_t type)
     else
     {
         ntides = new CNucleotide(type, this->x, this->y, this->orient, this->win);
+    }
+}
+
+void CNAStrand::move(int x, int y)
+{
+    int dx = this->x - x;
+    int dy = this->y - y;
+    this->x = x;
+    this->y = y;
+
+    /* Move the nucleotides, too */
+    if (ntides != NULL)
+    {
+        CNucleotide* ptr = ntides;
+
+        /* find the last element */
+        while (ptr != NULL)
+        {
+            ptr->move(ptr->getx() - dx, ptr->gety() - dy);
+            ptr = ptr->next;
+        }
+
+
     }
 }

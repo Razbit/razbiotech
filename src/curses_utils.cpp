@@ -1,6 +1,5 @@
 /*
- * CNAStrand is a class describing a single strand of a nucleic acid,
- * i.e. a DNA or RNA strand
+ * Utilities for curses
 **/
 
 /* Copyright (C) 2015  Eetu "Razbit" Pesonen
@@ -21,12 +20,7 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#ifndef CNASTRAND_H
-#define CNASTRAND_H
-
-#include <stdlib.h>
-
-#include "cobject.h"
+#include "curses_utils.h"
 
 #ifdef PLATFORM_WIN32
 #include <pdcurses.h>
@@ -34,31 +28,21 @@
 #include <curses.h>
 #endif
 
-#include "cnucleotide.h"
-
-class CNAStrand : public CObject
+void wbclear(WINDOW* win)
 {
-public:
-    CNAStrand(): ntides(NULL) {}
+    int h, w;
+    getmaxyx(win, h, w);
+    h--;
+    w--;
 
-    CNAStrand(int x, int y, e_orientation_t orient, WINDOW* win): ntides(NULL)
+    for (int i = 1; i < h; i++)
     {
-        this->x = x;
-        this->y = y;
-        this->orient = orient;
-        this->win = win;
+        for (int j = 1; j < w; j++)
+            mvwaddch(win, i, j, ' ');
     }
-
-    ~CNAStrand();
-
-    int draw();
-
-    void add(e_nucl_type_t type);
-
-    void move(int x, int y);
+}
 
 
-    CNucleotide* ntides; /* A list of all nucleotides in the strand. */
-};
 
-#endif // CNASTRAND_H
+
+

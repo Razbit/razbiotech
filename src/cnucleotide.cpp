@@ -28,8 +28,6 @@
 #include <curses.h>
 #endif
 
-#include "curses_utils.h"
-
 #include "cnucleotide.h"
 
 CNucleotide::~CNucleotide()
@@ -65,17 +63,17 @@ int CNucleotide::draw()
     switch (orient)
     {
     case UP: // we're drawing the upper strand
-        mvwaddch(this->win, this->y, this->x, '+');
-        attron(COLOR_PAIR(type));
+        mvwaddch(this->win, this->y, this->x, ACS_TTEE);
+        wattron(this->win, COLOR_PAIR(type));
         mvwaddch(this->win, this->y+1, this->x, ctype);
-        attroff(COLOR_PAIR(type));
+        wattroff(this->win, COLOR_PAIR(type));
         break;
 
     case DOWN: //lower strand
-        mvwaddch(this->win, this->y+1, this->x, '+');
-        attron(COLOR_PAIR(type));
+        mvwaddch(this->win, this->y+1, this->x, ACS_BTEE);
+        wattron(this->win, COLOR_PAIR(type));
         mvwaddch(this->win, this->y, this->x, ctype);
-        attroff(COLOR_PAIR(type));
+        wattroff(this->win, COLOR_PAIR(type));
         break;
 
     default: // ???
