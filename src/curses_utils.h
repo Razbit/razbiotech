@@ -33,5 +33,12 @@
 /* Clear everything but the border */
 void wbclear(WINDOW* win);
 
+/* Draw a box at x,y of size h,w with border */
+void wmvbox(WINDOW* win, int y, int x, int h, int w);
+/* ls, rs, ts, bs,
+ * tl, tr, bl, br */
+void wmvbox(WINDOW* win, int y, int x, int h, int w,    \
+            chtype ls, chtype rs, chtype ts, chtype bs, \
+            chtype tl, chtype tr, chtype bl, chtype br);
 
 #endif // CURSES_UTILS_H

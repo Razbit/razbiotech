@@ -38,6 +38,8 @@
 #include "cnapolymerase.h"
 
 #define COLOR_DNAPOLYM 6
+#define DNAPOLYM_W 4
+#define DNAPOLYM_H 7
 
 class CDNAPolymerase : public CNAPolymerase
 {
@@ -56,6 +58,8 @@ public:
         pair_content(0, 0, &bg);
 
         init_pair(COLOR_DNAPOLYM, COLOR_CYAN, bg);
+
+        draw();
     }
 
     ~CDNAPolymerase();

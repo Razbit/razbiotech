@@ -42,7 +42,41 @@ void wbclear(WINDOW* win)
     }
 }
 
+/* Draw a box at x,y of size h,w with border */
+void wmvbox(WINDOW* win, int y, int x, int h, int w)
+{
+    wmvbox(win, y, x, h, w, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, \
+           ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
+}
 
+/* Draw a box at x,y of size h,w with border
+ * ls, rs, ts, bs,
+ * tl, tr, bl, br */
+void wmvbox(WINDOW* win, int y, int x, int h, int w,    \
+            chtype ls, chtype rs, chtype ts, chtype bs, \
+            chtype tl, chtype tr, chtype bl, chtype br)
+{
+    // left
+    for (int i = y + 1; i < y + h; i++)
+        mvwaddch(win, i, x, ls);
+    // right
+    for (int i = y + 1; i < y + h; i++)
+        mvwaddch(win, i, x + w, rs);
+    // top
+    for (int i = x + 1; i < x + w; i++)
+        mvwaddch(win, y, i, ts);
+    // bottom
+    for (int i = x + 1; i < x + w; i++)
+        mvwaddch(win, y + h, i, bs);
+    // tl
+    mvwaddch(win, y, x, tl);
+    // tr
+    mvwaddch(win, y, x + w, tr);
+    // bl
+    mvwaddch(win, y + h, x, bl);
+    // br
+    mvwaddch(win, y + h, x + w, br);
+}
 
 
 

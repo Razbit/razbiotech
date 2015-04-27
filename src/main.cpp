@@ -77,8 +77,8 @@ int main()
 
     strand->draw();
 
-    CDNAPolymerase* polym = new CDNAPolymerase(getmaxx(contentwin)/2, \
-                                               getmaxy(contentwin)/2, \
+    CDNAPolymerase* polym = new CDNAPolymerase(getmaxx(contentwin)/2 - 2, \
+                                               getmaxy(contentwin)/2 - 3, \
                                                strand, strand2, contentwin);
 
     while (polym->copy() == 0);

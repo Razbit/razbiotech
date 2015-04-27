@@ -52,10 +52,28 @@ int CDNAPolymerase::draw()
 {
     wbclear(this->win);
     wrefresh(this->win);
+
+    /* Draw the enzyme */
+    wattron(this->win, COLOR_PAIR(COLOR_DNAPOLYM));
+    wmvbox(this->win, y, x, DNAPOLYM_H, DNAPOLYM_W, \
+           ' ' | A_REVERSE, ' ' | A_REVERSE, ' ' | A_REVERSE, ' ' | A_REVERSE,\
+           ' ' | A_REVERSE, ' ' | A_REVERSE, ' ' | A_REVERSE, ' ' | A_REVERSE);
+    mvwaddch(this->win, this->y + 2, this->x, ' ');
+    mvwaddch(this->win, this->y + 3, this->x, ' ');
+    mvwaddch(this->win, this->y + 2, this->x + DNAPOLYM_W, ' ');
+    mvwaddch(this->win, this->y + 3, this->x + DNAPOLYM_W, ' ');
+    mvwaddch(this->win, this->y - 2 + DNAPOLYM_H, this->x, ' ');
+    mvwaddch(this->win, this->y - 3 + DNAPOLYM_H, this->x, ' ');
+    mvwaddch(this->win, this->y - 2 + DNAPOLYM_H, this->x + DNAPOLYM_W, ' ');
+    mvwaddch(this->win, this->y - 3 + DNAPOLYM_H, this->x + DNAPOLYM_W, ' ');
+    mvwaddch(this->win, this->y + 1, this->x + DNAPOLYM_W / 2, '|' | A_BOLD);
+    mvwaddch(this->win, this->y - 1 + DNAPOLYM_H, this->x + DNAPOLYM_W / 2, '|' | A_BOLD);
+    wattroff(this->win, COLOR_PAIR(COLOR_DNAPOLYM));
+    wrefresh(this->win);
+
+    /* Draw the DNA strands */
     strand1->draw();
     strand2->draw();
-
-
 
     return 0;
 }
@@ -137,8 +155,8 @@ int CDNAPolymerase::copy()
     strand2->add(type);
 
     cur++;
-    draw();
     move_strands();
+    draw();
 
     return 0;
 }
