@@ -39,7 +39,6 @@ CNucleotide::~CNucleotide()
 
 int CNucleotide::draw()
 {
-    char tmp[2] = {0, 0};
     char ctype = 0;
     int color = COLOR_WHITE;
 
@@ -65,18 +64,20 @@ int CNucleotide::draw()
         ctype = 'U';
         color = URA;
         break;
+    case DEFAULT:
+        break;
     }
 
     switch (orient)
     {
     case UP: // we're drawing the upper strand
         mvaddch(this->y, this->x, '+');
-        fmvaddch(color, this->y+1, this->x, ctype);
+        fmvwaddch(color, this->y+1, this->x, this->win, ctype);
         break;
 
     case DOWN: //lower strand
         mvaddch(this->y+1, this->x, '+');
-        fmvaddch(color, this->y, this->x, ctype);
+        fmvwaddch(color, this->y, this->x, this->win, ctype);
         break;
 
     default: // ???

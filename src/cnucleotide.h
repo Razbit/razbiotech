@@ -40,7 +40,7 @@ typedef enum
     CYT = COLOR_RED,
     URA = COLOR_MAGENTA,
     DEFAULT = -1
-} e_nucleotide_type_t;
+} e_nucl_type_t;
 
 
 class CNucleotide : public CObject
@@ -48,20 +48,18 @@ class CNucleotide : public CObject
 public:
     CNucleotide(): type(DEFAULT) {}
 
-    CNucleotide(e_nucleotide_type_t type, int x, int y, e_orientation_t orient):
-    type(type)
-    {
-        CObject(x, y, orient);
-    }
+    CNucleotide(e_nucl_type_t type, int x, int y, e_orientation_t orient,
+                WINDOW* win):
+        type(type) {CObject(x, y, orient, win);}
 
     virtual ~CNucleotide();
 
     int draw();
 
-    e_nucleotide_type_t get_type(){return type;}
-    void set_type(e_nucleotide_type_t type){this->type = type;}
+    e_nucl_type_t get_type(){return type;}
+    void set_type(e_nucl_type_t type){this->type = type;}
 
-    e_nucleotide_type_t type;
+    e_nucl_type_t type;
 };
 
 #endif // CNUCLEOTIDE_H

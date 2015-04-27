@@ -19,7 +19,7 @@
  * along with razbiotech.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#include <iostream>
+#include <stdlib.h>
 
 #include <platform.h>
 
@@ -31,22 +31,24 @@
 
 #include "cnucleotide.h"
 
-using namespace std;
 
 int main()
 {
     initscr();              /* Start curses mode */
     if (has_colors() == FALSE)
+    {
         printw("Your terminal does not support color\n");
+        return EXIT_FAILURE;
+    }
     else
         start_color();
 
-    CNucleotide* nucl1 = new CNucleotide(ADE, 5, 5, UP);
+    CNucleotide* nucl1 = new CNucleotide(ADE, 5, 5, UP, stdscr);
     nucl1->draw();
 
     getch();                /* Wait for user input */
     endwin();               /* End curses mode */
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 

@@ -23,6 +23,12 @@
 #ifndef COBJECT_H
 #define COBJECT_H
 
+#ifdef PLATFORM_WIN32
+#include <pdcurses.h>
+#else
+#include <curses.h>
+#endif
+
 typedef enum
 {
     UP,
@@ -34,8 +40,11 @@ typedef enum
 class CObject
 {
 public:
-    CObject(int x, int y, e_orientation_t orient): x(x), y(y), orient(orient) {}
-    CObject(): x(0), y(0), orient(UP) {}
+    CObject(int x, int y, e_orientation_t orient, WINDOW* win):
+        x(x), y(y), orient(orient), win(win){}
+
+    CObject(): x(0), y(0), orient(UP), win(stdscr) {}
+
     virtual ~CObject(){}
 
     virtual int draw(){return 0;}
@@ -51,6 +60,9 @@ public:
 
     int x, y; /* Top-left of bounding box */
     e_orientation_t orient; /* Orientation */
+
+    /* Window to draw this object in */
+    WINDOW* win;
 };
 
 #endif // COBJECT_H
