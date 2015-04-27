@@ -23,6 +23,8 @@
 #ifndef CURSES_UTILS_H
 #define CURSES_UTILS_H
 
+#include "platform.h"
+
 #ifdef PLATFORM_WIN32
 #include <pdcurses.h>
 #else

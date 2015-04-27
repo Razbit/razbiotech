@@ -21,6 +21,7 @@
 **/
 
 #include "cobject.h"
+#include "platform.h"
 
 #ifdef PLATFORM_WIN32
 #include <pdcurses.h>

@@ -23,6 +23,8 @@
 #ifndef COBJECT_H
 #define COBJECT_H
 
+#include "platform.h"
+
 #ifdef PLATFORM_WIN32
 #include <pdcurses.h>
 #else
